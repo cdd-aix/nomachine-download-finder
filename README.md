@@ -6,3 +6,6 @@ Jenkins Pipeline to Mirror NoMachine Downloads and provide as artifacts
 
 ## TODO
 * Provide DSL for including or excluding specific products, architectures, and distributions
+
+## Notes
+* Uses www.nomachine.com pages as test inputs.  These are copyright nomachine so must be fetched from their site.
