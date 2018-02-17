@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import argparse
 import re
 from bs4 import BeautifulSoup
 
@@ -6,8 +7,10 @@ class NoMachineProductDownloadPages(object):
     _soups = None
     _download_re = re.compile('^/download/.*&id=')
     _onclick_location_href_re = re.compile("^location\.href='(/download/[^']+)'")
+    files = []
     def __init__(self, files=None):
-        self.files = files
+        if files:
+            self.files = files
 
     @property
     def soups(self):
@@ -36,14 +39,27 @@ class NoMachineProductDownloadPages(object):
                 if match:
                     yield(div.text.strip(), match.group(1))
 
-    @property
     def pages(self):
         return dict(x for x in self.download_pages_generator())
 
+    def download_urls(self):
+        download_pages = sorted(self.pages().values())
+        return '\n'.join(download_pages)
+
 
 def main(argv):
-    products = NoMachineProductDownloadPages(files=argv)
-    print(products.pages)
+    parser = argparse.ArgumentParser(description='NoMachine Mirror')
+    # parser.add_argument('--base-url', default='https://www.nomachine.com')
+    # parser.add_argument('--download-pages', nargs='+', default=['/download', '/download-enterprise'])
+    parser.add_argument('--output-download-pages', dest='output', action='store_const',
+                        const=NoMachineProductDownloadPages.download_urls,
+                        default=NoMachineProductDownloadPages.pages,
+    )
+    parser.add_argument('--files', nargs='+')
+    args = parser.parse_args()
+    print(parser.prog, args)
+    products = NoMachineProductDownloadPages(files=args.files)
+    print(args.output(products))
 
 
 if __name__ == '__main__':
