@@ -6,6 +6,6 @@ default_testfile_dir="${appdir}/testfiles"
 main() {
     local testfile_url_list="${1:-${default_testfile_url_list}}"\
 	  testfile_dir="${2:-${default_testfile_dir}}"
-    wget -i "${testfile_url_list}" -P "${testfile_dir}"
+    wget --input-file "${testfile_url_list}" --directory-prefix "${testfile_dir}"
 }
 main "$@"
