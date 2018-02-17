@@ -1,2 +1,2 @@
-https://www.nomachine.com/download
-https://www.nomachine.com/download-enterprise
+/download
+/download-enterprise
