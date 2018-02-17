@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+import re
+from bs4 import BeautifulSoup
+
+class NoMachineProductDownloadPages(object):
+    _soups = None
+    _download_re = re.compile('^/download/.*&id=')
+    _onclick_location_href_re = re.compile("^location\.href='(/download/[^']+)'")
+    def __init__(self, files=None):
+        self.files = files
+
+    @property
+    def soups(self):
+        if self._soups is None:
+            self._soups = {}
+            for f in self.files:
+                try:
+                    with open(f) as fp:
+                        self._soups[f] = BeautifulSoup(fp, 'html.parser')
+                except IsADirectoryError:
+                    pass
+                except FileNotFoundError:
+                    pass
+        return self._soups
+
+    def download_pages_generator(self):
+        for soup in self.soups.values():
+            for a in soup.find_all(name='a', attrs={'href': self._download_re}):
+                yield(a.text.strip(), a.get('href'))
+            for div in soup.find_all(name='div', class_='common-link-download'):
+                onclick = div.get('onclick')
+                if not onclick:
+                    next
+                # print(div.__repr__())
+                match = self._onclick_location_href_re.search(div.get('onclick'))
+                if match:
+                    yield(div.text.strip(), match.group(1))
+
+    @property
+    def pages(self):
+        return dict(x for x in self.download_pages_generator())
+
+
+def main(argv):
+    products = NoMachineProductDownloadPages(files=argv)
+    print(products.pages)
+
+
+if __name__ == '__main__':
+    import sys
+    sys.exit(main(sys.argv))
