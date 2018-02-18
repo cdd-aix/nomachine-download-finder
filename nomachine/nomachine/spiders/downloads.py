@@ -3,6 +3,7 @@ import re
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
+from scrapy_splash import SplashRequest
 
 class DownloadItem(scrapy.Item):
     title = scrapy.Field()
@@ -25,6 +26,13 @@ class DownloadsSpider(CrawlSpider):
         'https://www.nomachine.com/download',
         'https://www.nomachine.com/download-enterprise'
     ]
+
+    def start_requests(self):
+        for url in self.start_urls:
+            yield SplashRequest(url, self.parse_item,
+                                endpoint='render.html',
+                                args={'wait': 10},
+            )
 
     rules = (
         Rule(
@@ -52,6 +60,8 @@ class DownloadsSpider(CrawlSpider):
         item_onclicks = response.xpath(self.link_a).extract()
         item_onclicks += response.xpath(self.link_div).extract()
         item_links = [a.split("'")[1] for a in item_onclicks]
+        # print(item_links)
+        # print(response.headers)
         for a in item_links:
             yield response.follow(a, callback=self.parse_item)
 
