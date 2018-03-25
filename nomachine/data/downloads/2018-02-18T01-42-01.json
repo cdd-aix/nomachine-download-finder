@@ -1,0 +1,5 @@
+[
+{"package_type": "EXE", "version": "6.0.78_1", "title": "NoMachine for Windows", "md5": "be7ca7ce28c1095bdb808e32f44e3ac5", "url": "http://download.nomachine.com/download/6.0/Windows/nomachine_6.0.78_1.exe", "supported_os": "Windows i386/AMD64 XP/Vista/7/8/8.1/10/Windows Server 2008/2012/2016"},
+{"package_type": "APK", "version": "5.0.63_1", "title": "NoMachine for Android", "md5": "110137573fde6fc8ba88dbf6d07e3e21", "url": "http://download.nomachine.com/download/6.0/Android/nomachine_5.0.63_1.apk", "supported_os": "Android 3.2.x Honeycomb/4.0.x Ice Cream Sandwich/4.1.x-4.3.x Jelly Bean/4.4.x KitKat/5.x Lollipop/6.0 Marshmallow/7.0 Nougat/8.0 Oreo"},
+{"package_type": "DMG", "version": "6.0.78_4", "title": "NoMachine for Mac", "md5": "b86bbe3267aedd22736ae018c3a3d719", "url": "http://download.nomachine.com/download/6.0/MacOSX/nomachine_6.0.78_4.dmg", "supported_os": "Mac Intel 64-bit OS X 10.7/10.8/10.9/10.10/10.11, macOS 10.12/10.13"}
+]
